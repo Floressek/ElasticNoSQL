@@ -4,7 +4,7 @@ services:
     container_name: es-master-1
     environment:
       - node.name=es-master-1
-      - cluster.name=es-cluster
+      - cluster.name=sklep-cluster
       - node.roles=master
       - discovery.seed_hosts=es-master-2, es-master-3, es-data-1, es-data-2
       - cluster.initial_master_nodes=es-master-1, es-master-2, es-master-3
@@ -20,14 +20,14 @@ services:
     container_name: es-master-2
     environment:
       - node.name=es-master-2
-      - cluster.name=es-cluster
+      - cluster.name=sklep-cluster
       - node.roles=master
       - discovery.seed_hosts=es-master-1, es-master-3, es-data-1, es-data-2
       - cluster.initial_master_nodes=es-master-1, es-master-2, es-master-3
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - xpack.security.enabled=false
-#    ports:
-#      - "9200:9200"
+    #    ports:
+    #      - "9200:9200"
     networks:
       - elastic
 
@@ -36,14 +36,14 @@ services:
     container_name: es-master-3
     environment:
       - node.name=es-master-3
-      - cluster.name=es-cluster
+      - cluster.name=sklep-cluster
       - node.roles=master
       - discovery.seed_hosts=es-master-2, es-master-1, es-data-1, es-data-2
       - cluster.initial_master_nodes=es-master-1, es-master-2, es-master-3
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - xpack.security.enabled=false
-#    ports:
-#      - "9200:9200"
+    #    ports:
+    #      - "9200:9200"
     networks:
       - elastic
 
@@ -87,3 +87,39 @@ services:
       - "5601:5601"
     networks:
       - elastic
+
+  # Logstash z HTTP input
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.8.0
+    container_name: logstash
+    volumes:
+      - ./logstash/config:/usr/share/logstash/config:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5044:5044"
+      - "8080:8080"
+    networks:
+      - elastic
+    depends_on:
+      - es-data-1
+      - es-data-2
+
+  #   Flask API Server
+  flask-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flask-api
+    ports:
+      - "5001:5000"
+    networks:
+      - elastic
+    depends_on:
+      - logstash
+    environment:
+      - ELASTICSEARCH_HOST=es-data-1
+      - LOGSTASH_HOST=logstash
+
+networks:
+  elastic:
+    driver: bridge

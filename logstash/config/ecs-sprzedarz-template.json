@@ -1,0 +1,202 @@
+{
+  "index_patterns": ["ecs-*"],
+  "version": 1,
+  "settings": {
+    "number_of_shards": 2,
+    "number_of_replicas": 1,
+    "index.refresh_interval": "5s"
+  },
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "ecs": {
+        "properties": {
+          "version": {
+            "type": "keyword"
+          }
+        }
+      },
+      "event": {
+        "properties": {
+          "action": {
+            "type": "keyword"
+          },
+          "category": {
+            "type": "keyword"
+          },
+          "type": {
+            "type": "keyword"
+          },
+          "id": {
+            "type": "keyword"
+          },
+          "outcome": {
+            "type": "keyword"
+          },
+          "severity": {
+            "type": "long"
+          },
+          "dataset": {
+            "type": "keyword"
+          },
+          "module": {
+            "type": "keyword"
+          },
+          "provider": {
+            "type": "keyword"
+          },
+          "ingested": {
+            "type": "date"
+          }
+        }
+      },
+      "service": {
+        "properties": {
+          "name": {
+            "type": "keyword"
+          }
+        }
+      },
+      "log": {
+        "properties": {
+          "level": {
+            "type": "keyword"
+          }
+        }
+      },
+      "message": {
+        "type": "text",
+        "analyzer": "standard"
+      },
+      "client": {
+        "properties": {
+          "ip": {
+            "type": "ip"
+          },
+          "geo": {
+            "properties": {
+              "location": {
+                "type": "geo_point"
+              },
+              "country_name": {
+                "type": "keyword"
+              },
+              "city_name": {
+                "type": "keyword"
+              }
+            }
+          }
+        }
+      },
+      "user": {
+        "properties": {
+          "full_name": {
+            "type": "keyword"
+          }
+        }
+      },
+      "geo": {
+        "properties": {
+          "location": {
+            "type": "geo_point"
+          },
+          "country_name": {
+            "type": "keyword"
+          },
+          "country_iso_code": {
+            "type": "keyword"
+          },
+          "city_name": {
+            "type": "keyword"
+          }
+        }
+      },
+      "host": {
+        "properties": {
+          "name": {
+            "type": "keyword"
+          }
+        }
+      },
+      "observer": {
+        "properties": {
+          "name": {
+            "type": "keyword"
+          },
+          "type": {
+            "type": "keyword"
+          },
+          "version": {
+            "type": "keyword"
+          }
+        }
+      },
+      "data_stream": {
+        "properties": {
+          "type": {
+            "type": "keyword"
+          },
+          "dataset": {
+            "type": "keyword"
+          },
+          "namespace": {
+            "type": "keyword"
+          }
+        }
+      },
+      "labels": {
+        "properties": {
+          "product_id": {
+            "type": "keyword"
+          },
+          "product_name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "product_category": {
+            "type": "keyword"
+          },
+          "product_brand": {
+            "type": "keyword"
+          },
+          "amount_net": {
+            "type": "double"
+          },
+          "amount_gross": {
+            "type": "double"
+          },
+          "currency": {
+            "type": "keyword"
+          },
+          "payment_method": {
+            "type": "keyword"
+          },
+          "unit_price": {
+            "type": "double"
+          },
+          "quantity": {
+            "type": "integer"
+          },
+          "store_code": {
+            "type": "keyword"
+          },
+          "employee_id": {
+            "type": "keyword"
+          },
+          "receipt_number": {
+            "type": "keyword"
+          },
+          "transaction_class": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
