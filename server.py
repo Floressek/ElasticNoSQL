@@ -223,7 +223,7 @@ def generuj_transakcje_sprzedazy(liczba=1):
 
         # Czas transakcji (ostatnie 30 dni)
         czas = datetime.now() - timedelta(
-            days=random.randint(0, 120),
+            days=random.randint(0, 60),
             hours=random.randint(9, 22),  # godziny otwarcia sklepu
             minutes=random.randint(0, 59)
         )
