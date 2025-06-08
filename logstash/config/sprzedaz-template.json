@@ -1,5 +1,7 @@
 {
-  "index_patterns": ["ecs-*"],
+  "index_patterns": [
+    "ecs-*"
+  ],
   "version": 1,
   "settings": {
     "number_of_shards": 2,
