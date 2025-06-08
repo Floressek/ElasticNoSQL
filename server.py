@@ -161,9 +161,9 @@ def generuj_sprzedaz(liczba):
         for transakcja in transakcje:
             # Wysłanie do Logstash przez HTTP
             response = requests.post(
-                'http://localhost:8080',  # Logstash HTTP input
+                'http://logstash:8080',  # Logstash HTTP input
                 json=transakcja,
-                timeout=1
+                timeout=5
             )
     except:
         pass  # Nie blokuj jeśli Logstash nie działa
